@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "badcc1aefda5994ba7e9767049ec7b34"
+name = "transloom"
+handle = "transloom"
+application_url = "https://wedding-tip-vocational-episode.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "mystore-v-01.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_orders,read_products,write_products"
+
+[auth]
+redirect_urls = [
+  "https://wedding-tip-vocational-episode.trycloudflare.com/auth/callback",
+  "https://wedding-tip-vocational-episode.trycloudflare.com/auth/shopify/callback",
+  "https://wedding-tip-vocational-episode.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
