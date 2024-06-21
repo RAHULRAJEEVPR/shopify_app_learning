@@ -7,7 +7,7 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import PrivacyWebhookHandlers from "./privacy.js";
-
+import { createScriptTag,checkScriptTag } from "./utils/shopify-script-tag.js";
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
   10
@@ -25,7 +25,22 @@ app.get(shopify.config.auth.path, shopify.auth.begin());
 app.get(
   shopify.config.auth.callbackPath,
   shopify.auth.callback(),
-  shopify.redirectToShopifyOrAppRoot()
+  async (req, res, next) => {
+    const session = res.locals.shopify.session;
+    await createScriptTag(session, shopify);
+    // Check if ScriptTag exists
+    const isScriptInjected = await checkScriptTag(session, shopify);
+    
+    if (isScriptInjected) {
+      console.log("The script is already injected.");
+    } else {
+      console.log("The script is not injected. Proceeding to inject...");
+      // Create ScriptTag if it doesn't exist
+      await createScriptTag(session, shopify);
+    }
+
+    shopify.redirectToShopifyOrAppRoot()(req, res, next);
+  }
 );
 app.post(
   shopify.config.webhooks.path,
@@ -39,12 +54,12 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
-app.get("/api/store/info",async(req,res)=>{
-  let storeInfo=await shopify.api.rest.Shop.all({
-    session:res.locals.shopify.session
-  })
+app.get("/api/store/info", async (req, res) => {
+  let storeInfo = await shopify.api.rest.Shop.all({
+    session: res.locals.shopify.session,
+  });
   res.status(200).send(storeInfo);
-})
+});
 
 app.get("/api/products/count", async (_req, res) => {
   const countData = await shopify.api.rest.Product.count({
@@ -55,7 +70,7 @@ app.get("/api/products/count", async (_req, res) => {
 app.get("/api/orders/all", async (_req, res) => {
   const OrdersData = await shopify.api.rest.Order.all({
     session: res.locals.shopify.session,
-    status:"any"
+    status: "any",
   });
   res.status(200).send(OrdersData);
 });

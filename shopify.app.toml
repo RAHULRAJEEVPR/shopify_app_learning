@@ -3,7 +3,7 @@
 client_id = "badcc1aefda5994ba7e9767049ec7b34"
 name = "transloom"
 handle = "transloom"
-application_url = "https://wedding-tip-vocational-episode.trycloudflare.com"
+application_url = "https://statistical-context-stomach-jeremy.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_orders,read_products,write_products"
+scopes = "read_orders,read_products,write_products,write_script_tags"
 
 [auth]
 redirect_urls = [
-  "https://wedding-tip-vocational-episode.trycloudflare.com/auth/callback",
-  "https://wedding-tip-vocational-episode.trycloudflare.com/auth/shopify/callback",
-  "https://wedding-tip-vocational-episode.trycloudflare.com/api/auth/callback"
+  "https://statistical-context-stomach-jeremy.trycloudflare.com/auth/callback",
+  "https://statistical-context-stomach-jeremy.trycloudflare.com/auth/shopify/callback",
+  "https://statistical-context-stomach-jeremy.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
